@@ -13,12 +13,18 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('mochaSelenium', 'Run functional tests with mocha', function() {
     var done = this.async();
+    
     // Retrieve options from the grunt task.
     var options = this.options({
       browserName: 'firefox',
       usePromises: false,
-      useSystemPhantom: false
+      useSystemPhantom: false,
+      grep: undefined
     });
+
+    for(var option in options) {
+      options[option] = grunt.option(option) || options[option];
+    }
 
     // We want color in our output, but when grunt-contrib-watch is used,
     //  mocha will detect that it's being run to a pipe rather than tty.
